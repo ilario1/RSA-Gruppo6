@@ -29,10 +29,10 @@ Ilario Perticari
 
 # ServerThread Class:
 
-5. Riceve il messaggio che manda il Client mittente e poi lo riamnda al Client destinatario
+1. Riceve il messaggio che manda il Client mittente e poi lo riamnda al Client destinatario
 
 # ClientThread Class:
 
-6. ricezione del messaggio mandato dal ServerThread
-7. Decrittazione del messaggio e visualizzazione
+1. ricezione del messaggio mandato dal ServerThread
+2. Decrittazione del messaggio e visualizzazione
 
