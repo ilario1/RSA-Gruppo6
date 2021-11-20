@@ -16,23 +16,23 @@ Ilario Perticari
 
 # Server Class:
 
-Vengono generate le chiavi del server
-ArrayList dei ServerThread che si hanno 
-ArrayList delle chiave pubbliche dei vari Client
+1. Vengono generate le chiavi del server
+2. ArrayList dei ServerThread che si hanno 
+3. ArrayList delle chiave pubbliche dei vari Client
 
 # Client Class:
 
-Generazioni chiavi del client 
-Assegnamento nome client 
-Invio del messaggio ad un Client
-Crittazione del messaggio con algoritmo RSA
+1. Generazioni chiavi del client 
+2. Assegnamento nome client 
+3. Invio del messaggio ad un Client
+4. Crittazione del messaggio con algoritmo RSA
 
 # ServerThread Class:
 
-Riceve il messaggio che manda il Client mittente e poi lo riamnda al Client destinatario
+5. Riceve il messaggio che manda il Client mittente e poi lo riamnda al Client destinatario
 
 # ClientThread Class:
 
-ricezione del messaggio mandato dal ServerThread
-Decrittazione del messaggio e visualizzazione
+6. ricezione del messaggio mandato dal ServerThread
+7. Decrittazione del messaggio e visualizzazione
 
