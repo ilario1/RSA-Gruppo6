@@ -1,15 +1,12 @@
 import java.net.*;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 
 public class ClientThread extends Thread {
     private Socket socket;
     private BufferedReader input;
-    private String response;
+    private String response = "";
 
     public ClientThread(Socket s) throws IOException {
         this.socket = s;

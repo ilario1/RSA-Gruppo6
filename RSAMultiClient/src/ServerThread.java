@@ -34,8 +34,8 @@ public class ServerThread extends Thread {
                         System.out.println(countName);
                         if (countName == 2) {
                             System.out.println("trovato nome uguale");
-                            String answer = "already exists";
-                            output.println(answer);
+                            String answerC1 = "already exists";
+                            output.println(answerC1);
                             checkCName = false;
                             break;
                         }

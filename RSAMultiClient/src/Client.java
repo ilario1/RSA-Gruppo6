@@ -15,9 +15,9 @@ public class Client {
             String response;
             String clientName = "empty";
             String recipientName;
+            int contThread = 0;
 
             ClientThread clientThread = new ClientThread(socket);
-            clientThread.start();
 
             do {
                 if (clientName.equals("empty")) {
@@ -26,6 +26,10 @@ public class Client {
                         System.out.println("Enter your name: ");
                         userInput = scanner.nextLine();
                         output.println(userInput);
+                        if (contThread == 0) {
+                            clientThread.start();
+                            contThread = 1;
+                        }
                         answer = clientThread.getResponse();
                         System.out.println(answer);
                     } while (answer.equals("already exists"));
