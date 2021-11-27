@@ -1,12 +1,15 @@
 import java.net.*;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
 public class ClientThread extends Thread {
     private Socket socket;
     private BufferedReader input;
+    private String response;
 
     public ClientThread(Socket s) throws IOException {
         this.socket = s;
@@ -16,18 +19,17 @@ public class ClientThread extends Thread {
     @Override
     public void run() {
         try {
-            PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
             while (true) {
-                String response = input.readLine();
-                if (response.equals("nice") || response.equals("already exists")
+                response = input.readLine();
+                if (response.equals("va bene") || response.equals("already exists")
                         || response.equals("cant write to urself")) {
-                    output.println(response);
+                    System.out.println("Passo al client " + response);
                 } else {
                     System.out.println(response);
                 }
             }
         } catch (Exception e) {
-            System.out.println("sroigroihgrsoihg");
+            System.out.println(e.getMessage());
             e.printStackTrace();
         } finally {
             try {
@@ -36,5 +38,9 @@ public class ClientThread extends Thread {
                 e.printStackTrace();
             }
         }
+    }
+
+    public String getResponse() {
+        return response;
     }
 }

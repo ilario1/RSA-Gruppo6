@@ -1,7 +1,9 @@
 import java.net.*;
 import java.util.*;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
 public class ServerThread extends Thread {
@@ -20,42 +22,40 @@ public class ServerThread extends Thread {
     public void run() {
         try {
             BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            output = new PrintWriter(socket.getOutputStream(), true);
-
-            clientName = input.readLine();
-            boolean checkCName = true;
-            int countName = 0;
-            for (ServerThread sT : threadList) {
-                if (clientName.equals(sT.clientName)) {
-                    countName++;
-                    System.out.println(countName);
-                    if (countName == 2) {
-                        String answer = "already exists";
-                        output.println(answer);
-                        checkCName = false;
-                        break;
-                    }
-                }
-            }
-            if (checkCName) {
-                String answer = "nice";
-                output.println(answer);
-            }
+            output = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 
             while (true) {
-                recipientName = input.readLine();
-                boolean checkWritingTo = true;
-                if (this.clientName.equals(this.recipientName)) {
-                    String answer = "cant write to urself";
-                    this.output.println(answer);
-                    checkWritingTo = false;
+                clientName = input.readLine();
+                boolean checkCName = true;
+                int countName = 0;
+                for (ServerThread sT : threadList) {
+                    if (this.clientName.equals(sT.clientName)) {
+                        countName++;
+                        System.out.println(countName);
+                        if (countName == 2) {
+                            System.out.println("trovato nome uguale");
+                            String answer = "already exists";
+                            output.println(answer);
+                            checkCName = false;
+                            break;
+                        }
+                    }
+                }
+                if (checkCName) {
+                    String answerC1 = "va bene";
+                    output.println(answerC1);
                     break;
                 }
-                if (checkWritingTo) {
-                    String answer = "nice";
-                    output.println(answer);
-                }
-
+            }
+            while (true) {
+                recipientName = input.readLine();
+                /*
+                 * boolean checkWritingTo = true; if
+                 * (this.clientName.equals(this.recipientName)) { String answer =
+                 * "cant write to urself"; this.output.println(answer); checkWritingTo = false;
+                 * } if (checkWritingTo) { String answerC2 = "va bene";
+                 * output.println(answerC2); }
+                 */
                 String outputString = input.readLine();
                 if (outputString.equals("exit")) {
                     break;

@@ -26,7 +26,8 @@ public class Client {
                         System.out.println("Enter your name: ");
                         userInput = scanner.nextLine();
                         output.println(userInput);
-                        answer = input.readLine();
+                        answer = clientThread.getResponse();
+                        System.out.println(answer);
                     } while (answer.equals("already exists"));
 
                     clientName = userInput;
@@ -37,13 +38,15 @@ public class Client {
                 } else {
                     String message = ("(" + clientName + ")" + " message: ");
 
-                    String answer = "";
-                    do {
-                        System.out.println("Writing to: ");
-                        recipientName = scanner.nextLine();
-                        output.println(recipientName);
-                        answer = input.readLine();
-                    } while (answer.equals("cant write to urself"));
+                    /*
+                     * String answer = ""; do {
+                     * 
+                     * answer = input.readLine(); } while (answer.equals("cant write to urself"));
+                     */
+
+                    System.out.println("Writing to: ");
+                    recipientName = scanner.nextLine();
+                    output.println(recipientName);
 
                     System.out.println("Your message: ");
                     userInput = scanner.nextLine();
@@ -55,7 +58,7 @@ public class Client {
             } while (!userInput.equals("exit"));
 
         } catch (Exception e) {
-            System.out.println("Exception occured in client main: " + e.getStackTrace());
+            System.out.println("Exception occured in client main: " + e.getMessage());
         }
     }
 }
