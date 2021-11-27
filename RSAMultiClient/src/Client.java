@@ -30,7 +30,9 @@ public class Client {
                             clientThread.start();
                             contThread = 1;
                         }
-                        answer = clientThread.getResponse();
+                        do {
+                            answer = clientThread.getResponse();
+                        } while (answer.equals(""));
                         System.out.println(answer);
                     } while (answer.equals("already exists"));
 
