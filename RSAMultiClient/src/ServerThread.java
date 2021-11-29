@@ -5,10 +5,12 @@ import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 
 public class ServerThread extends Thread {
     private Socket socket;
     private static ArrayList<ServerThread> threadList;
+    private static ArrayList<Keys> pubKeys;
     public PrintWriter output;
     private String recipientName;
     public String clientName;
@@ -42,6 +44,7 @@ public class ServerThread extends Thread {
                     }
                 }
                 if (checkCName) {
+                    System.out.println("nome disponibile");
                     String answerC1 = "va bene";
                     output.println(answerC1);
                     break;
@@ -57,10 +60,30 @@ public class ServerThread extends Thread {
                  * output.println(answerC2); }
                  */
                 String outputString = input.readLine();
+                int indexValue = 0;
+                boolean check = false;
+                for (int i = 0; i < pubKeys.size(); i++) {
+                    if (pubKeys.get(i).getClientName().equals(this.clientName)) {
+                        check = true;
+                    }
+                }
+                if (!check) {
+                    BigInteger firstKeyPart = new BigInteger(input.readLine());
+                    BigInteger secondKeyPart = new BigInteger(input.readLine());
+                    BigInteger[] key = { firstKeyPart, secondKeyPart };
+                    Keys pubKey = new Keys(clientName, key);
+                    pubKeys.add(pubKey);
+                }
+
+                for (int i = 0; i < pubKeys.size(); i++) {
+                    if (pubKeys.get(i).getClientName().equals(this.recipientName)) {
+                        indexValue = i;
+                    }
+                }
                 if (outputString.equals("exit")) {
                     break;
                 }
-                printToClient(outputString);
+                printToClient(outputString, pubKeys.get(indexValue).getKey());
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -68,10 +91,12 @@ public class ServerThread extends Thread {
         }
     }
 
-    private void printToClient(String outputString) {
+    private void printToClient(String outputString, BigInteger[] key) {
         for (ServerThread sT : threadList) {
             if (sT.clientName.equals(this.recipientName)) {
                 sT.output.println(outputString);
+                sT.output.println(key[0]);
+                sT.output.println(key[1]);
             }
         }
     }
