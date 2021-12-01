@@ -1,15 +1,12 @@
 import java.net.*;
-import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.math.BigInteger;
+import java.io.PrintWriter;
 
 public class ClientThread extends Thread {
     private Socket socket;
     private BufferedReader input;
-    private String response = "";
-    private BigInteger[] key;
 
     public ClientThread(Socket s) throws IOException {
         this.socket = s;
@@ -19,22 +16,18 @@ public class ClientThread extends Thread {
     @Override
     public void run() {
         try {
+            PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
             while (true) {
-                synchronized (this) {
-                    response = input.readLine();
-                }
-                if (response.equals("va bene") || response.equals("already exists")
+                String response = input.readLine();
+                if (response.equals("nice") || response.equals("already exists")
                         || response.equals("cant write to urself")) {
+                    output.println(response);
                 } else {
-                    key[0] = new BigInteger(input.readLine());
-                    key[1] = new BigInteger(input.readLine());
-                    BigInteger responseDecrypted = new BigInteger(response);
-                    responseDecrypted = responseDecrypted.modPow(key[0], key[1]);
-                    System.out.println(new String(responseDecrypted.toByteArray()));
+                    System.out.println(response);
                 }
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("sroigroihgrsoihg");
             e.printStackTrace();
         } finally {
             try {
@@ -43,9 +36,5 @@ public class ClientThread extends Thread {
                 e.printStackTrace();
             }
         }
-    }
-
-    public String getResponse() {
-        return response;
     }
 }
