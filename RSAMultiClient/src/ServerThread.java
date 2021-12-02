@@ -70,10 +70,6 @@ public class ServerThread extends Thread {
                 printKeyToClient(clientName, pubKeys.get(indexValue).getKey());
 
                 String outputString = input.readLine();
-
-                if (outputString.equals("exit")) {
-                    break;
-                }
                 printToClient(outputString);
             }
         } catch (Exception e) {

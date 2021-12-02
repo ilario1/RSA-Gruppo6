@@ -11,9 +11,8 @@ public class Client {
     static BigInteger[] pubKeyReciever = new BigInteger[2];
 
     public static void main(String[] args) throws IOException {
-        try (Socket socket = new Socket("localhost", 5000)) {
+        try (Socket socket = new Socket("localhost", 5000); Scanner scanner = new Scanner(System.in);) {
             PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
-            Scanner scanner = new Scanner(System.in);
             String userInput;
             String clientName = "empty";
             String recipientName;
@@ -25,7 +24,7 @@ public class Client {
 
             ClientThread clientThread = new ClientThread(socket, privKey);
 
-            do {
+            while (true){
                 if (clientName.equals("empty")) {
                     String answer;
                     do {
@@ -46,13 +45,8 @@ public class Client {
                     clientName = userInput;
                     output.println(pubKey[0]);
                     output.println(pubKey[1]);
-                    if (userInput.equals("exit")) {
-                        break;
-                    }
 
                 } else {
-                    String message = ("(" + clientName + ")" + " message: ");
-
                     System.out.println("Writing to: ");
                     recipientName = scanner.nextLine();
                     output.println(recipientName);
@@ -67,7 +61,7 @@ public class Client {
                     output.println(msgCrypted);
 
                 }
-            } while (!msgToCrypt.equals("exit"));
+            }
 
         } catch (Exception e) {
             System.out.println("Exception occured in client main: " + e.getMessage());
