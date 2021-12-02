@@ -14,7 +14,7 @@ public class Server {
                 serverThread.start();
             }
         } catch (Exception e) {
-            System.out.println("Error occured: " + e.getStackTrace());
+            System.out.println("Error occured: " + e.getMessage());
         }
     }
 }

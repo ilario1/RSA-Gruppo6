@@ -1,5 +1,4 @@
 import java.net.*;
-import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,9 +8,8 @@ public class ClientThread extends Thread {
     private Socket socket;
     private BufferedReader input;
     private String response = "";
-    private static BigInteger[] key;
+    private static BigInteger[] key = new BigInteger[2];
     private BigInteger[] thisClientKey;
-    private boolean check = true;
 
     public ClientThread(Socket s, BigInteger[] privKey) throws IOException {
         this.socket = s;
@@ -24,16 +22,19 @@ public class ClientThread extends Thread {
         try {
             while (true) {
                 response = input.readLine();
-                if (!(response.equals("va bene") || response.equals("already exists"))) {
+                
+                if (response.equals("invio key")) {
                     key[0] = new BigInteger(input.readLine());
                     key[1] = new BigInteger(input.readLine());
                 }
-                if (response.equals("va bene") || response.equals("already exists")
-                        || response.equals("cant write to urself")) {
+                else if (response.equals("va bene") || response.equals("already exists")
+                        || response.equals("cant write to urself") || response.equals("1")) {
                 } else {
-                    BigInteger responseDecrypted = new BigInteger(response);
-                    responseDecrypted = responseDecrypted.modPow(thisClientKey[0], thisClientKey[1]);
-                    System.out.println(new String(responseDecrypted.toByteArray()));
+                    synchronized(this){
+                        BigInteger responseDecrypted = new BigInteger(response);
+                        responseDecrypted = responseDecrypted.modPow(thisClientKey[0], thisClientKey[1]);
+                        System.out.println(new String(responseDecrypted.toByteArray()));
+                    }
                 }
             }
         } catch (Exception e) {

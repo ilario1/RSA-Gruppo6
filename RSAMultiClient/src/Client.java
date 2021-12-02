@@ -1,8 +1,6 @@
 import java.net.*;
 import java.util.*;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.nio.file.*;
@@ -17,7 +15,6 @@ public class Client {
             PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
             Scanner scanner = new Scanner(System.in);
             String userInput;
-            String response;
             String clientName = "empty";
             String recipientName;
             int contThread = 0;
@@ -60,12 +57,14 @@ public class Client {
                     recipientName = scanner.nextLine();
                     output.println(recipientName);
 
+                    String msg;
                     System.out.println("Your message: ");
-                    byte[] bufi = scanner.nextLine().getBytes("UTF-8");
+                    msg = scanner.nextLine();
+                    byte[] bufi = ("<" + clientName + "> "+ msg).getBytes();
                     msgToCrypt = new BigInteger(bufi);
                     pubKeyReciever = ClientThread.getKey();
                     BigInteger msgCrypted = msgToCrypt.modPow(pubKeyReciever[0], pubKeyReciever[1]);
-                    output.println(message + " " + msgCrypted);
+                    output.println(msgCrypted);
 
                 }
             } while (!msgToCrypt.equals("exit"));

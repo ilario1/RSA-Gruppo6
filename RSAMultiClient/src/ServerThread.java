@@ -18,7 +18,7 @@ public class ServerThread extends Thread {
 
     public ServerThread(Socket socket, ArrayList<ServerThread> threadList) {
         this.socket = socket;
-        this.threadList = threadList;
+        ServerThread.threadList = threadList;
     }
 
     @Override
@@ -82,7 +82,7 @@ public class ServerThread extends Thread {
         }
     }
 
-    private void printToClient(String outputString) {
+    private synchronized void printToClient(String outputString) {
         for (ServerThread sT : threadList) {
             if (sT.clientName.equals(this.recipientName)) {
                 sT.output.println(outputString);
@@ -90,9 +90,10 @@ public class ServerThread extends Thread {
         }
     }
 
-    private void printKeyToClient(String clientName, BigInteger[] key) {
+    private synchronized void printKeyToClient(String clientName, BigInteger[] key) {
         for (ServerThread sT : threadList) {
             if (sT.clientName.equals(this.clientName)) {
+                sT.output.println("invio key");
                 sT.output.println(key[0]);
                 sT.output.println(key[1]);
             }
