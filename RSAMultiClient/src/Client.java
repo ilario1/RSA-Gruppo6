@@ -5,26 +5,66 @@ import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.nio.file.*;
 
+/**
+ * @author Gallo Valerio
+ * @since 02/12/2021
+ *        Classe Client, contiene l'inserimento del nome del client, l'invio e
+ *        la crittazione del messaggio ad un altro client, e la generazione
+ *        delle relative chiavi pubblica e privata.
+ *        Per leggere le informazioni inviate dal server in tempo reale, viene
+ *        utilizzato un thread associato al client che è sempre pronto a
+ *        ricevere i messaggi dal server.
+ */
 public class Client {
+    /**
+     * Chiave pubblica del client.
+     */
     static BigInteger[] pubKey = new BigInteger[2];
+    /**
+     * Chiave privata del client.
+     */
     static BigInteger[] privKey = new BigInteger[2];
+    /**
+     * Chiave pubblica del client che deve ricevere il messaggio.
+     */
     static BigInteger[] pubKeyReciever = new BigInteger[2];
 
     public static void main(String[] args) throws IOException {
         try (Socket socket = new Socket("localhost", 5000); Scanner scanner = new Scanner(System.in);) {
+            /**
+             * Oggetto utilizzato per mandare le infomazioni al server.
+             */
             PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
+            /**
+             * Oggetto che contiene l'input dell'utente.
+             */
             String userInput;
+            /**
+             * Nome assegnato dall'utente al client, se vale "empty" viene fatta
+             * l'assegnazione di un nome scelto dall'utente.
+             */
             String clientName = "empty";
+            /**
+             * Nome del client che deve ricevere il messaggio.
+             */
             String recipientName;
+            /**
+             * Valore che serve per determinare se il ClientThread associato al client è
+             * stato avviato.
+             */
             int contThread = 0;
-
+            /**
+             * Messaggio originario da criptare.
+             */
             BigInteger msgToCrypt = new BigInteger("0");
 
             KeyGen();
-
+            /**
+             * Oggetto ClientThread che inizializza il thread associato al client.
+             */
             ClientThread clientThread = new ClientThread(socket, privKey);
 
-            while (true){
+            while (true) {
                 if (clientName.equals("empty")) {
                     String answer;
                     do {
@@ -54,7 +94,7 @@ public class Client {
                     String msg;
                     System.out.println("Your message: ");
                     msg = scanner.nextLine();
-                    byte[] bufi = ("<" + clientName + "> "+ msg).getBytes();
+                    byte[] bufi = ("<" + clientName + "> " + msg).getBytes();
                     msgToCrypt = new BigInteger(bufi);
                     pubKeyReciever = ClientThread.getKey();
                     BigInteger msgCrypted = msgToCrypt.modPow(pubKeyReciever[0], pubKeyReciever[1]);
@@ -68,6 +108,10 @@ public class Client {
         }
     }
 
+    /**
+     * Metodo che genera le chiavi pubblica e privata del client, prendendo i numeri
+     * primi da un file.
+     */
     public static void KeyGen() {
         BigInteger p = new BigInteger("0");
         BigInteger q = new BigInteger("0");
