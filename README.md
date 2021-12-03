@@ -1,14 +1,8 @@
 <div id="top"></div>
 
-[![Contributors][contributors-shield]][https://github.com/Vallozz]
-
-
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
 
 <h3 align="center">RSAMultiClient</h3>
 
@@ -19,25 +13,26 @@
 
 
 
-<!-- TABLE OF CONTENTS -->
+<!-- TABELLA DEI CONTENUTI -->
 <details>
   <summary>Tabella dei contenuti</summary>
   <ol>
     <li>
-      <a href="#about-the-project">Riguardo il progetto</a>
+      <a href="#riguardo-il-progetto">Riguardo il progetto</a>
       <ul>
-        <li><a href="#built-with">Costruito con</a></li>
+        <li><a href="#sviluppato-con">Costruito con</a></li>
       </ul>
     </li>
+    <li><a href="#documentazione-classi-java">Documentazione classi</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contatti">Contatti</a></li>
   </ol>
 </details>
 
 
 
-<!-- ABOUT THE PROJECT -->
-## About The Project
+<!-- RIGUARDO IL PROGETTO -->
+## Riguardo il progetto
 
 Il progetto è stato richiesto dalla professoressa Maria Rita Di Berardini, e sviluppato dal gruppo 6, composto da Valerio Gallo, Ilario Perticari e Selena Paniccià.
 L'applicazione funziona come dovrebbe, ci sono miglioramenti possibili, come l'aggiunta di altri controlli, la possibilità di sapere quali utenti sono connessi alla piattaforma,
@@ -45,11 +40,36 @@ l'implementazione di un login con username e password.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
-### Built With
+### Sviluppato con
 
 * [Java](https://www.oracle.com/it/java/)
+
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!-- DOCUMENTAZIONE CLASSI JAVA -->
+## Documentazione classi Java
+- [✔] Server
+    - [✔] Accettazione dei client avviati, inizializzazione e collezionamento dei thread associati al server in una lista.
+- [✔] ServerThread
+    - [✔] Collezionamento in una lista di tutte le chiavi pubbliche dei client avviati.
+    - [✔] Metodo costruttore del ServerThread.
+    - [✔] Controllo di client con nomi uguali.
+    - [✔] Invio al client mittente della chiave pubblica del client ricevente.
+    - [✔] Invio al client ricevente del messaggio criptato dal client mittente.
+- [✔] Client
+    - [✔] Generazione delle chiavi per la crittografia RSA.
+    - [✔] Invio al server della chiave pubblica.
+    - [✔] Inserimento di un nome per ogni client.
+    - [✔] Inserimento del nome del client ricevente.
+    - [✔] Crittazione del messaggio con la chiave pubblica del client ricevente.
+- [✔] ClientThread
+    - [✔] Classe utilizzata generalmente per la ricezione dei dati mandati dal server.
+    - [✔] Ricezione delle chiavi del client ricevente e invio alla classe madre Client.
+    - [✔] Invio alla classe madre Client del risultato dei controlli.
+    - [✔] Decrittazione del messaggio inviato dal client mittente attraverso la chiave privata del client ricevente, condivisa con il thread associato al client attraverso il metodo costruttore.
+- [✔] Keys
+    - [✔] Metodo costruttore della lista di chiavi pubbliche memorizzata all'interno del server.
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -68,8 +88,8 @@ l'implementazione di un login con username e password.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-<!-- CONTACT -->
-## Contact
+<!-- CONTATTI -->
+## Contatti
 
 Valerio Gallo - [GitHub](https://github.com/Vallozz) - gallo.valerio@istitutomontani.edu.it
 
