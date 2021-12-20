@@ -30,7 +30,7 @@ public class Client {
     static BigInteger[] pubKeyReciever = new BigInteger[2];
 
     public static void main(String[] args) throws IOException {
-        try (Socket socket = new Socket("localhost", 6500); Scanner scanner = new Scanner(System.in);) {
+        try (Socket socket = new Socket("localhost", 5000); Scanner scanner = new Scanner(System.in);) {
             /**
              * Oggetto utilizzato per mandare le infomazioni al server.
              */
@@ -104,7 +104,7 @@ public class Client {
             }
 
         } catch (Exception e) {
-            System.out.println("Exception occured in client main: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -112,39 +112,33 @@ public class Client {
      * Metodo che genera le chiavi pubblica e privata del client, prendendo i numeri
      * primi da un file.
      */
-    public static void KeyGen() {
+    public static void KeyGen() throws IOException {
         BigInteger p = new BigInteger("0");
         BigInteger q = new BigInteger("0");
         BigInteger n = new BigInteger("0");
         BigInteger z = new BigInteger("0");
-        try {
-            String fileName = "prime.txt";
-            int linesNum = (int) Files.lines(Paths.get(fileName)).count();
-            p = new BigInteger(Files.readAllLines(Paths.get(fileName)).get((int) (Math.random() * linesNum)));
-            do {
-                q = new BigInteger(Files.readAllLines(Paths.get(fileName)).get((int) (Math.random() * linesNum)));
-            } while (q.equals(p));
+        String fileName = ".\\RSAMultiClient\\primi.txt";
+        int linesNum = (int) Files.lines(Paths.get(fileName)).count();
+        p = new BigInteger(Files.readAllLines(Paths.get(fileName)).get((int) (Math.random() * linesNum)));
+        do {
+            q = new BigInteger(Files.readAllLines(Paths.get(fileName)).get((int) (Math.random() * linesNum)));
+        } while (q.equals(p));
 
-            n = p.multiply(q);
-            z = (p.subtract(BigInteger.ONE)).multiply(q.subtract(BigInteger.ONE));
+        n = p.multiply(q);
+        z = (p.subtract(BigInteger.ONE)).multiply(q.subtract(BigInteger.ONE));
 
-            BigInteger e = new BigInteger("1");
-            do {
-                e = new BigInteger(Files.readAllLines(Paths.get(fileName)).get((int) (Math.random() * linesNum)));
-            } while (e.compareTo(z) == 1 || e.equals(q) || e.equals(p));
+        BigInteger e = new BigInteger("1");
+        do {
+            e = new BigInteger(Files.readAllLines(Paths.get(fileName)).get((int) (Math.random() * linesNum)));
+        } while (e.compareTo(z) == 1 || e.equals(q) || e.equals(p));
 
-            BigInteger d = new BigInteger("0");
-            d = e.modInverse(z);
+        BigInteger d = new BigInteger("0");
+        d = e.modInverse(z);
 
-            privKey[0] = d;
-            privKey[1] = n;
+        privKey[0] = d;
+        privKey[1] = n;
 
-            pubKey[0] = e;
-            pubKey[1] = n;
-
-        } catch (Exception e) {
-            e.getMessage();
-        }
-
+        pubKey[0] = e;
+        pubKey[1] = n;
     }
 }
