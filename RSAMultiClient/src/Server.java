@@ -15,7 +15,7 @@ public class Server {
          */
         ArrayList<ServerThread> threadList = new ArrayList<ServerThread>();
 
-        try (ServerSocket serverSocket = new ServerSocket(5000)) {
+        try (ServerSocket serverSocket = new ServerSocket(6500)) {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 ServerThread serverThread = new ServerThread(clientSocket, threadList);

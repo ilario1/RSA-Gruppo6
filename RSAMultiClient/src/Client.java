@@ -30,7 +30,7 @@ public class Client {
     static BigInteger[] pubKeyReciever = new BigInteger[2];
 
     public static void main(String[] args) throws IOException {
-        try (Socket socket = new Socket("localhost", 5000); Scanner scanner = new Scanner(System.in);) {
+        try (Socket socket = new Socket("localhost", 6500); Scanner scanner = new Scanner(System.in);) {
             /**
              * Oggetto utilizzato per mandare le infomazioni al server.
              */
